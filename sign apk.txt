@@ -1,0 +1,7 @@
+1.把相關檔案copy出來
+build/target/product/security/platform.x509.pem
+build/target/product/security/platform.pk8
+./out/host/linux-x86/framework/signapk.jar
+
+2.執行下列指令
+java -jar signapk.jar platform.x509.pem platform.pk8 app-debug.apk app-debug-signed.apk

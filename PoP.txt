@@ -1,0 +1,13 @@
+Package on Package (PoP)
+
+下面是cpu，上面是ram
+cpu的上面跟下面都有sensor
+雖然cpu可以拼到95~100度
+可是一般ram的溫度比較低，大約80度
+
+所以cpu上層的sensor大概在65度左右的時候
+就會開始降cpu頻或是去關cpu核(6核關到5核之類的)
+
+所以買到PoP的cpu時，要注意上面的sensor有沒有被設定
+如果我們板子的ram是分開擺的，這個sensor就應該要關掉
+不然它會控制cpu溫度，導致效能上不去

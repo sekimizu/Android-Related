@@ -1,0 +1,114 @@
+1. logcat -s "KENNY" 
+logcat -s "ethernet" &
+可以只看要看的tag
+
+
+2. BT pairing
+am start -n com.android.settings/.Settings\$BluetoothSettingsActivity
+am start -n com.android.settings/.Settings\$UsbSettingsActivity
+am start -n com.qualcomm.wfd.client/.WFDClientActivity
+
+
+input keyevent 20 // DOWN
+input keyevent 19 // UP
+input keyevent 21 // LEFT
+input keyevent 22 // RIGHT
+
+sleep 0.5
+input keyevent 66 // KEYCODE_ENTER
+input keyevent 67 //DEL
+input keyevent 111 // ESC
+
+3. flash
+@echo off
+
+@echo Upgrading device...
+adb reboot bootloader
+fastboot flash boot D:\boot.img
+fastboot flash cache D:\cache.img
+fastboot flash userdata D:\userdata.img
+fastboot flash system D:\system.img
+fastboot flash persist D:\persist.img
+fastboot flash recovery D:\recovery.img
+fastboot reboot
+
+直接從image開機
+fastboot boot D:\boot.img
+
+adb push Z:\TestHarness /mnt/sdcard/TestHarness
+
+4. copy
+cp out/target/product/apq8084/system.img /home/kenny_pan/images/.
+
+5. 
+am start -n com.android.settings/.Settings\$WirelessSettingsActivity
+
+logcat -s "ethernet" &
+logcat -s "EthernetStateTracker" &
+logcat -s "ConnectivityService" &
+logcat -s "EthernetManager"
+logcat -s "EthernetMonitor" &
+logcat -s "EthernetService" &
+logcat -s "SystemServer"
+logcat -s "PegaRemoteService" &
+
+
+
+6. build
+. build/envsetup.sh
+lunch apq8084-userdebug
+make libandroid_runtime -j8
+make framework -j8
+make systemimage -j8
+
+
+7. 介紹 AndroidRuntime::registerNativeMethods的網站
+http://huenlil.pixnet.net/blog/post/23802146-%5B%E8%BD%89%5Djni%E8%88%87android-vm%E4%B9%8B%E9%97%9C%E4%BF%82
+
+介紹JNI傳遞參數的網站 (I, L, V, Z)
+http://blog.csdn.net/conowen/article/details/7524744
+介紹 c/c++ data type轉換成JNI對應的datatype ( jboolean, jbyte, jint)
+http://blog.csdn.net/conowen/article/details/7523145
+
+
+8. 改kernel driver的話
+make kernel -j8
+燒錄 boot.img
+
+9. 看有關miracast的東西，可以只開下列logcat tag
+logcat -s "Client.DeviceListFragment" &
+logcat -s "Client.WiFiDirectBroadcastReceiver" &
+logcat -s "Client.WFDClientActivity" &
+
+10. 丟TestHarness執行檔進去
+adb push Z:/TestHarness /mnt/sdcard/TestHarness
+
+11. 
+下 fastboot oem select-display-panel hdmi
+這樣一進bootloader就會把hdmi打開，當作是primary panel
+
+12. how to enable screenovate?
+把patch都上一上，然後把 C:\Users\kenny_pan\Desktop\APQ8084\UI\screenovate\device\screenovate\tvcast\files
+copy一份到/home/kenny_pan/APQ8084/APQ8084/device/screenovate/tvcast 底下
+
+make TvCastPortal -j8
+make TvCastServer -j8
+make TvCastBootanimation -j8
+
+13. screen rotation
+source code是在 frameworks/base/policy/src/com/android/internal/policy/impl/PhoneWindowManager.java
+
+rotationForOrientationLw
+
+最後會回傳旋轉的角度
+Surface.ROTATION_0;
+Surface.ROTATION_90;
+Surface.ROTATION_180;
+Surface.ROTATION_270;
+
+
+logcat -s "PegaRemoteReceiver" &
+logcat -s "PegaRemoteService" &
+am start -n com.unihan.servicemanager/com.unihan.wifiremote.WifiRemoteService
+
+opt/net/wifi/service/java/com/android/server/wifi/p2p/WifiP2pServiceImpl.java

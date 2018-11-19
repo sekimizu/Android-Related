@@ -1,0 +1,2 @@
+dtb -> dts
+out/target/product/apq8084/obj/KERNEL_OBJ/scripts/dtc/dtc -I dtb -O dts -o final.dts out/target/product/apq8084/obj/KERNEL_OBJ/arch/arm/boot/dts/apq8084-v1.1-sbc.dtb

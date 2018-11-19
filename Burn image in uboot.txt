@@ -1,0 +1,25 @@
+1. via network
+
+set ipaddr 192.168.101.99
+set serverip 192.168.101.98
+ping ${serverip}
+tftpboot 0x88000000 nor-ipq40xx-single.img
+sf probe
+
+imgaddr=0x88000000 && source $imgaddr:script
+
+
+@@@@@@ DK04版子address不一樣
+
+tftpboot 0x84000000 nor-ipq40xx-single_04.img
+tftpboot 0x84000000 nor-ipq40xx-single_dk01.img
+tftpboot 0x84000000 nor-ipq40xx-single_dk04.img
+
+imgaddr=0x84000000 && source $imgaddr:script
+
+2. via kmodem
+
+sf probe
+loadb 0x88000000
+imgaddr=0x88000000 && source $imgaddr:script
+
